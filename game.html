@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Shark Fact Generator</title>
+<style>
+body {
+  font-family: sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  margin: 0;
+  background-color: #007bff; 
+}
+
+.container {
+  text-align: center;
+}
+
+.button {
+  background-color: #4CAF50;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.word-bubble {
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 20px;
+  margin-top: 20px;
+  position: relative;
+  font-size: 18px;
+  font-family: 'Courier New', monospace;
+}
+
+.word-bubble:before {
+  content: "";
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  margin-left: -10px;
+  border-width: 10px;
+  border-style: solid;
+  border-color: transparent transparent #f0f0f0 transparent;
+}
+
+.shark-image {
+  position: absolute;
+  width: 230px;
+  height: auto; 
+}
+
+.back-link {
+  position: absolute; 
+  top: 10px; 
+  left: 10px; 
+  color: white; 
+  text-decoration: none; 
+}
+
+</style>
+</head>
+<body>
+
+  <a href="javascript:history.back()" class="back-link">Back</a> 
+
+  <div class="container">
+    <h1>Shark Fact Generator</h1>
+    <button class="button" onclick="showFact()">Shark Facts</button>
+    <div class="word-bubble" id="fact"></div>
+  </div>
+
+  <div id="sharkContainer"></div>
+
+  <script>
+  const facts = [
+    "The largest shark is the whale shark, which can grow up to 40 feet long.",
+    "Hammerhead sharks have eyes on the sides of their heads, giving them a wide field of vision.",
+    "Great white sharks have three rows of teeth.",
+    "Some sharks can detect one drop of blood in a million drops of water.",
+    "Sharks have been around for over 400 million years.",
+    "The smallest shark is the dwarf lantern shark, which is only about 6 inches long.",
+    "Sharks are essential predators in the ocean's ecosystem.",
+    "Some sharks can glow in the dark.",
+    "Sharks do not chew their food; they tear it off in chunks.",
+    "There are over 500 different species of sharks."
+  ];
+
+  const sharkImages = [
+    "https://cdn.mos.cms.futurecdn.net/5HQzkwZnxY4ZiaEjET8hSE.jpg",
+  "https://images.squarespace-cdn.com/content/v1/580fd28d20099ec7189b72cf/9549dc84-6c18-478b-b726-84c14c3db882/Main.jpg",
+  "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bf/Scalloped_Hammerhead_Shark_Sphyrna_Lewini_%28226845659%29.jpeg/1200px-Scalloped_Hammerhead_Shark_Sphyrna_Lewini_%28226845659%29.jpeg",
+  "https://www.visitsealife.com/london/media/ev4d1031/nurse-sharks-getty.jpg",
+  "https://www.americanoceans.org/wp-content/uploads/2021/07/blue-shark-characteristics.jpg"
+
+  ]; 
+
+  function getRandomFact() {
+    const randomIndex = Math.floor(Math.random() * facts.length);
+    return facts[randomIndex];
+  }
+
+  function getRandomSharkImage() {
+    const randomIndex = Math.floor(Math.random() * sharkImages.length);
+    return sharkImages[randomIndex];
+  }
+
+  function showFact() {
+    const factElement = document.getElementById('fact'); 
+    factElement.textContent = getRandomFact(); 
+
+    const sharkContainer = document.getElementById('sharkContainer');
+    const sharkImage = document.createElement('img');
+    sharkImage.src = getRandomSharkImage();
+    sharkImage.classList.add('shark-image');
+
+    const viewportWidth = window.innerWidth;
+    const viewportHeight = window.innerHeight;
+    const imageWidth = 150; 
+    const imageHeight = 150; 
+
+    let randomX = Math.random() * (viewportWidth - imageWidth);
+    let randomY = Math.random() * (viewportHeight - imageHeight);
+
+    sharkImage.style.left = randomX + "px";
+    sharkImage.style.top = randomY + "px"; 
+
+    let moveX = Math.random() * 2 - 1; 
+    let moveY = Math.random() * 2 - 1; 
+
+    function animate() {
+      randomX += moveX;
+      randomY += moveY;
+
+      randomX = Math.max(0, Math.min(viewportWidth - imageWidth, randomX));
+      randomY = Math.max(0, Math.min(viewportHeight - imageHeight, randomY));
+
+      sharkImage.style.left = randomX + "px";
+      sharkImage.style.top = randomY + "px";
+
+      requestAnimationFrame(animate); 
+    }
+
+    animate();
+
+    sharkContainer.appendChild(sharkImage); 
+  }
+  </script>
+
+</body>
+</html>
